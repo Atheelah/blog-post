@@ -26,7 +26,7 @@ def fetch_users():
     return new_data
 
 
-
+users = fetch_users()
 
 def init_user_table():
     conn = sqlite3.connect('blog.db')
@@ -52,7 +52,6 @@ def init_post_table():
 
 init_user_table()
 init_post_table()
-users = fetch_users()
 
 username_table = { u.username: u for u in users }
 userid_table = { u.id: u for u in users }
@@ -75,12 +74,10 @@ app.config['SECRET_KEY'] = 'super-secret'
 
 jwt = JWT(app, authenticate, identity)
 
-
 @app.route('/protected')
 @jwt_required()
 def protected():
     return '%s' % current_identity
-
 
 @app.route('/user-registration/', methods=["POST"])
 def user_registration():
